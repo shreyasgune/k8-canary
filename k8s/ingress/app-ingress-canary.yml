@@ -1,0 +1,23 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  backend:
+    serviceName: kubeapp-production-service
+    servicePort: 80
+  rules:
+  - host: canary.foo.bar
+    http:
+      paths:
+      - backend:
+          serviceName: kubeapp-canary-service
+          servicePort: 80
+  - host: foo.bar
+    http:
+      paths:
+      - backend:
+          serviceName: kubeapp-production-service
+          servicePort: 80

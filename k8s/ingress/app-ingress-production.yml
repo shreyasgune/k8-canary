@@ -1,0 +1,25 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  backend:
+    serviceName: kubeapp-production-service
+    servicePort: 80
+  rules:
+    - host: myminikube.info
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: echoserver
+              servicePort: 8080
+    - host: myapp.sgune
+      http:
+        paths:
+          - path: /version
+            backend:
+              serviceName: kubeapp-production-service
+              servicePort: 80
